@@ -1,207 +1,111 @@
-" Don't try to be vi compatible
-set nocompatible
+set nocompatible                                " Don't try vi compatible
+syntax on                                       " enable syntax highlighting
+set background=dark                             " we like it dark!
+"set background=light                             
 
-"Pick a leader key
-let mapleader = ","
-
-" Helps force plugins to load correctly when it is turned back on below
-filetype off
-
-" Turn on syntax highlighting
-syntax on
-
-"---------------------------------------------------
-" PLUGIN
-"---------------------------------------------------
-
-call plug#begin('~/.vim/plugged')
-" fuzzy search
-Plug 'ctrlpvim/ctrlp.vim'
-
-" tree navigation
-Plug 'scrooloose/nerdtree'
-
-" airline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-" git integration
-Plug 'tpope/vim-fugitive'
-
-" colorscheme & syntax
-Plug 'joshdick/onedark.vim'
-Plug 'sheerun/vim-polyglot'
-
-Plug 'mileszs/ack.vim'
-
-Plug 'neovim/nvim-lspconfig'
-
-" custom
-Plug 'hashivim/vim-terraform'
-Plug 'ervandew/supertab'
-call plug#end()
-
-colorscheme onedark
-set rtp+=$GOROOT/misc/vim
-
-
-"LSP
-lua << EOF
-require'nvim_lsp'.pyls.setup{}
-require'nvim_lsp'.rust_analyzer.setup{}
-require'nvim_lsp'.gopls.setup{}
-EOF
-
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-
-
-" to review
-"
-" Enable deoplete autocompletion in Rust files
-" let g:deoplete#enable_at_startup = 1
-
-" customise deoplete
-" maximum candidate window length
-" call deoplete#custom#source('_', 'max_menu_width', 80)
-
-" Press Tab to scroll _down_ a list of auto-completions
-let g:SuperTabDefaultCompletionType = "<c-n>"
-
-"" rustfmt on write using autoformat
-"autocmd BufWrite * :Autoformat
-"
-""TODO: clippy on write
-"autocmd BufWrite * :Autoformat
-
-nnoremap <leader>c :!cargo clippy
-"
-nnoremap <leader>b :CtrlPBuffer<CR>
-
-" Nerdtree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-map <C-n> :NERDTreeToggle<CR>
-
-" Airline
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#whitespace#enabled = 1
-let g:airline#extensions#csv#column_display = 'Name'
-let g:airline#extensions#branch#enabled = 1
-let g:airline_theme='onedark'
-"let g:airline#extensions#tagbar#enabled = 0
-
-" Browse ocurrences
-cnoreabbrev Ack Ack!
-nnoremap <Leader>a :Ack!<Space>
-nnoremap <Leader>a yiw:Ack!<Space><c-r>0<CR>
-
-
-" nvim terminal
-augroup TerminalStuff
-  autocmd TermOpen * setlocal nonumber norelativenumber
-augroup END
+highlight Pmenu ctermbg=black guibg=black     | " fix popup color so it's easier to read
+filetype plugin on                              " load plugins based on file type filetype indent on                        
+set shiftwidth=2                                " number of spaces to use for indenting
+set softtabstop=2                               " number of spaces to use when inserting a tab
+set tabstop=2                                   " show tabs as 2 spaces
+set expandtab                                   " convert tabs into spaces
+set autoindent                                  " copy indent from previous line
+set wrap                                        " wrap longlines
+set ignorecase smartcase                        " search case-insensitively unless uppercase characters are used
+set hidden                                      " allow unsaved buffers to be hidden
+set ruler                                       " show cursor line and column in status
+set showcmd                                     " show current command in status line
+set notimeout                                   " disable timeout for finishing a mapping key sequence
+set visualbell                                  " visual bell = no sounds
+set undofile                                    " store undo info in a file
+set undodir=~/.vim-undo                         " where to store undo info
+set dir=~/tmp,/tmp                              " store swap files in $HOME/tmp or /tmp, whichever is available
+set scrolloff=3                                 " keep 3 lines visible above/below the cursor when scrolling
+set sidescrolloff=7                             " keep 7 characters visible to the left/right of the cursor when scrolling
+set sidescroll=1                                " scroll left/right one character at a time
+set splitbelow splitright                       " put new windows below or to the right
+set number                                      " show line numbers
+set relativenumber                              " show line numbers relative
+set mouse=a
+                       
+" scape works in the terminal and no display line number
 tnoremap <Esc> <C-\><C-n>
+autocmd TermOpen * setlocal nonumber norelativenumber
 
-"auto resize panes:
-"autocmd VimResized * wincmd =
+" leader mappings
+nnoremap <space> <nop>
+let mapleader=" "
+nnoremap <leader>r :source /home/semedi/.config/nvim/init.vim<CR>
 
-"---------------------------------------------------
-" NO PLUGIN
-"---------------------------------------------------
-"
-
-"system clipboard
+" system clipboard
 vnoremap Y "+y
-vnoremap <C-x> d<CR>:let @+=@"<CR>
+vnoremap X "+d
 
 "buf navigation
 nnoremap <Tab> :bn <CR>
 nnoremap <S-Tab> :bp <CR>
 nnoremap gb :ls<CR>:buffer<Space>
 
-" For plugins to load correctly
-filetype plugin indent on
 
-set autoindent
+"""""""""""""""""""""""""""
+" PLUGINS 
+"""""""""""""""""""""""""""
 
-" Security
-set modelines=0
+call plug#begin('~/.local/share/nvim/plugged')
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
 
-" Show line numbers
-set number
-set relativenumber
+  Plug 'preservim/nerdtree'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+  Plug 'Avimitin/nerd-galaxyline'
+  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'akinsho/nvim-bufferline.lua'
 
-" Show file stats
-set ruler
+  Plug 'hashivim/vim-terraform'
 
-" Blink cursor on error instead of beeping (grr)
-set visualbell
+  " Plug 'joshdick/onedark.vim'
+  Plug 'dracula/vim'
 
-" Encoding
-set encoding=utf-8
+  " git integration
+  Plug 'tpope/vim-fugitive'
+  Plug 'mhinz/vim-signify'
 
-" Whitespace
-set wrap
-"set textwidth=79
-set formatoptions=tcqrn1
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
-set noshiftround
+  " Language Server
+  " Plug 'neovim/nvim-lspconfig'
+  " Plug 'hrsh7th/nvim-compe'
+  
+  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+call plug#end()
 
-" Cursor motion
-set scrolloff=3
-set backspace=indent,eol,start
-set matchpairs+=<:> " use % to jump between pairs
-runtime! macros/matchit.vim
+if (has("termguicolors"))
+  set termguicolors
+endif
 
-" Move up/down editor lines
-nnoremap j gj
-nnoremap k gk
+colorscheme dracula
 
-" Allow hidden buffers
-set hidden
+" Nerdree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+nnoremap <C-n> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
 
-" Rendering
-set ttyfast
+" FzF
+nnoremap <silent> <C-p> :Files<CR>
+nnoremap <C-g> :Rg<Cr>
+let g:fzf_layout = { 'down': '~35%' }
 
-" Status bar
-set laststatus=2
+" Vim go
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
 
-" Last line
-set showmode
-set showcmd
+" Lua loaders
+luafile ~/.config/nvim/lua/plugins.lua
+lua require("bufferline").setup{}
 
-" Searching
-nnoremap / /\v
-vnoremap / /\v
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
-set showmatch
-map <leader><space> :let @/=''<cr> " clear search
-
-" Mouse
-set mouse=a
-
-" Formatting
-map <leader>q gqip
-
-" Visualize tabs and newlines
-set listchars=tab:▸\ ,eol:¬
-
-" Toggle tabs and EOL
-map <leader>l :set list!<CR>
-
-" Color scheme (terminal)
-set t_Co=256
-set background=dark
+luafile ~/.config/nvim/lsp.lua
+"luafile ~/.config/nvim/eviline.lua
