@@ -1,0 +1,37 @@
+version: "3"
+
+tasks:
+  bootstrap:
+    desc: "Run OS specific bootstrap"
+    cmds:
+      - ./bootstrap/bootstrap.sh
+
+  stow:
+    desc: "Link dotfiles using stow"
+    cmds:
+      - cd ~/dotfiles && stow nvim tmux zsh kitty
+
+  setup-nvim:
+    desc: "Install Neovim plugins with lazy.nvim"
+    cmds:
+      - nvim --headless +LazyInstall +qa
+
+  healthcheck:
+    desc: "Validate system setup"
+    cmds:
+      - nvim --version
+      - tmux -V
+      - zsh --version
+      - kitty --version
+      - stow --version
+
+  clean:
+    desc: "Cleanup temp or lock files"
+    cmds:
+      - rm -f ~/.local/share/nvim/lazy/lazy-lock.json
+      - echo "Cleanup done."
+
+  rollback:
+    desc: "Rollback last git commit (use with caution)"
+    cmds:
+      - git reset --hard HEAD~1
