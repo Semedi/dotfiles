@@ -1,0 +1,78 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Neovim
+nvimswap/
+*.swp
+*.swo
+*.bak
+*.tmp
+*.undo
+*.backup
+
+# Plugin managers
+packer_compiled.lua
+lazy-lock.json
+lazy-lock.json.bak
+lazy.nvim/
+
+# Node modules (if used in plugins or tooling)
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Taskfile lock or cache (if any)
+.taskfile.lock
+
+# Local environment config files
+.env
+.env.local
+.env.*.local
+
+# Operating system files
+ehthumbs.db
+Icon?
+desktop.ini
+
+# Logs and temp files
+*.log
+tmp/
+temp/
+
+# Kitty temp files
+kitty-session
+
+# Backup and temp files
+*.bak
+*.orig
+
+# SSH keys (never push private keys)
+id_rsa
+id_rsa.pub
+id_ecdsa
+id_ecdsa.pub
+
+# GNU Stow folders ignored (if stored separately)
+.stow-local-ignore
+.stow-ignore
+
+# Misc
+*.un~*
+
+# Ignore compiled binaries or executables if any
+*.out
+*.exe
+*.dll
+*.so
