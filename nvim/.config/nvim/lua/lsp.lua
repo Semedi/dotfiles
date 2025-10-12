@@ -1,23 +1,13 @@
-local lspconfig = require("lspconfig")
-
-local servers = {
-  "pyright",
-  "ts_ls",
-  "terraformls",
-  "rust_analyzer",
-  "gopls",
-  "clangd",
-}
-
 local on_attach = function(client, bufnr)
-  -- Aquí puedes añadir keymaps o configuraciones específicas del buffer
+  -- Buffer local keymaps can go here, or globally as shown before
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-for _, server in ipairs(servers) do
-  lspconfig[server].setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-  })
-end
+-- Add your LSP servers here
+local servers = { "pyright", "tsserver", "terraformls", "rust_analyzer" }
+
+vim.lsp.enable('pyright')
+vim.lsp.enable('ts_ls')
+vim.lsp.enable('terraformls')
+vim.lsp.enable('rust_analyzer')

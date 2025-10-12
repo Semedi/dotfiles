@@ -6,4 +6,3 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 vim.api.nvim_create_user_command("ReloadConfig", "source $HOME/.config/nvim/init.lua", {})
-
