@@ -1,0 +1,6 @@
+require("basic")
+require("keymaps")
+require("plugins")
+require("lsp")
+require("theme")
+require("extras")
