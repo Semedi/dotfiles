@@ -2,7 +2,7 @@
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.mouse = "a"
-vim.o.clipboard = "unnamedplus"
+vim.o.clipboard = "unnamed"
 vim.o.termguicolors = true
 vim.o.encoding = "utf-8"
 vim.o.ignorecase = true
