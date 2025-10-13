@@ -14,14 +14,11 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
   },
-
   "neovim/nvim-lspconfig",
-
   {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
   },
-
   "nvim-lualine/lualine.nvim",
   "lewis6991/gitsigns.nvim",
   {
@@ -33,42 +30,35 @@ require("lazy").setup({
       }
     end,
   },
+  {
+    "stevearc/oil.nvim",
+    config = function()
+      require("oil").setup({
+        default_file_explorer = true, -- Reemplaza netrw automáticamente
+        columns = { "icon", "mtime", "size" }, -- Columnas a mostrar
+        win_options = {
+          wrap = false,
+          signcolumn = "no",
+          cursorcolumn = false,
+          foldcolumn = "0",
+          spell = false,
+          list = false,
+          conceallevel = 3,
+          concealcursor = "nvic",
+          winbar = "%{v:lua.require('oil').get_current_dir()}", -- Muestra el path actual
+        },
+      })
+    end,
+  },
   "catppuccin/nvim",
   "ahmedkhalf/project.nvim",
-  {
-    "nvim-tree/nvim-tree.lua",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-  },
 })
-
 
 -- Treesitter
 require("nvim-treesitter.configs").setup({
   ensure_installed = {"c", "cpp", "lua", "python", "rust", "typescript", "bash"},
   highlight = {enable = true},
   indent = {enable = true},
-})
-
--- Nvim-tree
-require("nvim-tree").setup({
-  disable_netrw = true,
-  hijack_netrw = true,
-  update_cwd = true,
-  hijack_cursor = true,
-  view = { side = "left", width = 30 },
-  renderer = {
-    icons = { show = { file = true, folder = true, git = true } },
-    indent_markers = { enable = true },
-  },
-  filters = {
-    dotfiles = false,
-    custom = { ".git", "node_modules" },
-  },
-  git = { enable = true, ignore = false },
-  diagnostics = {
-    enable = true,
-    icons = { hint = "", info = "", warning = "", error = "" },
-  },
 })
 
 -- Lualine
