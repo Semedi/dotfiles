@@ -1,43 +1,46 @@
-local fn = vim.fn
-local install_path = fn.stdpath("data").."/site/pack/packer/start/packer.nvim"
-
-if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
-  vim.cmd("packadd packer.nvim")
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git", "clone", "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-require("packer").startup(function(use)
-  use 'wbthomason/packer.nvim'
-
-  use {
+require("lazy").setup({
+  {
     "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate"
-  }
+    run = ":TSUpdate",
+  },
 
-  use "neovim/nvim-lspconfig"
+  "neovim/nvim-lspconfig",
 
-  use {
+  {
     "nvim-telescope/telescope.nvim",
-    requires = { "nvim-lua/plenary.nvim" },
-  }
+    dependencies = { "nvim-lua/plenary.nvim" },
+  },
 
-  use "nvim-lualine/lualine.nvim"
-  use "lewis6991/gitsigns.nvim"
-  use {"theprimeagen/harpoon", config = function() require("harpoon").setup{tabline=true, menu={width=80}} end}
-  use "sindrets/diffview.nvim"
-  use "catppuccin/nvim"
-  use "ahmedkhalf/project.nvim"
-  use { "nvim-tree/nvim-tree.lua", requires = { "nvim-tree/nvim-web-devicons" } }
+  "nvim-lualine/lualine.nvim",
+  "lewis6991/gitsigns.nvim",
+  {
+    "theprimeagen/harpoon",
+    config = function()
+      require("harpoon").setup {
+        tabline = true,
+        menu = { width = 80 },
+      }
+    end,
+  },
+  "catppuccin/nvim",
+  "ahmedkhalf/project.nvim",
+  {
+    "nvim-tree/nvim-tree.lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
+})
 
-  -- Add more plugins here as needed
-end)
-
-vim.cmd [[
-  augroup packer_autocompile
-    autocmd!
-    autocmd BufWritePost init.lua source <afile> | PackerCompile
-  augroup END
-]]
 
 -- Treesitter
 require("nvim-treesitter.configs").setup({
