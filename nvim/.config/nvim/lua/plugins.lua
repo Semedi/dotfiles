@@ -19,6 +19,10 @@ require("lazy").setup({
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
   },
+  {
+    "tpope/vim-fugitive",
+    cmd = { "Git", "G" }, -- Lazy-load: load with :Git o :G
+  },
   "nvim-lualine/lualine.nvim",
   "lewis6991/gitsigns.nvim",
   {
@@ -45,7 +49,8 @@ require("nvim-treesitter.configs").setup({
 
 -- Lualine
 require("lualine").setup({
-  options = { theme = "catppuccin", section_separators = "", component_separators = "" }
+  options = { theme = "catppuccin", section_separators = "", component_separators = "" },
+  extensions = {"fugitive"},
 })
 
 -- Gitsigns
@@ -54,8 +59,6 @@ require("gitsigns").setup()
 
 -- Harpoon
 require("oil").setup({
-  default_file_explorer = true,
-  columns = { "icon", "size", "mtime" },
   view_options = {
     show_hidden = true,
   },

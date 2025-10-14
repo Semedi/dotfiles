@@ -9,6 +9,8 @@ map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', opts)
 map('n', '<leader>fb', ':Telescope buffers<CR>', opts)
 map('n', '<leader>gs', ':Telescope git_status<CR>', opts)
 
+map("n", "<leader>gs", ":Git<CR>", opts)
+
 
 map("n", "<leader>e", "<cmd>Oil<CR>", opts)
 -- Up level dir
