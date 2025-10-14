@@ -12,7 +12,6 @@ map("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 
 -- Plugins
-
 map('n', '<leader><leader>', '<cmd>Telescope find_files<cr>', opts)
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', opts)
 map('n', '<leader>fb', ':Telescope buffers<CR>', opts)
