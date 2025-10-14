@@ -28,3 +28,17 @@ map('n', '<leader>f', vim.lsp.buf.format, opts)
 map('i', '<C-k>', vim.lsp.buf.signature_help, opts)
 map('n', '<leader>ds', vim.lsp.buf.document_symbol, opts)
 map('n', '<leader>ws', vim.lsp.buf.workspace_symbol, opts)
+
+
+-- harpoon
+map("n", "<leader>a", function() require("harpoon.mark").add_file() end, opts)
+
+-- Abrir menú visual de harpoon con lista de marcadores
+map("n", "<leader>h", function() require("harpoon.ui").toggle_quick_menu() end, opts)
+
+-- Navegación rápida a archivos marcados
+map("n", "<leader>1", function() require("harpoon.ui").nav_file(1) end, opts)
+map("n", "<leader>2", function() require("harpoon.ui").nav_file(2) end, opts)
+map("n", "<leader>3", function() require("harpoon.ui").nav_file(3) end, opts)
+map("n", "<leader>4", function() require("harpoon.ui").nav_file(4) end, opts)
+map("n", "<leader>5", function() require("harpoon.ui").nav_file(5) end, opts)
