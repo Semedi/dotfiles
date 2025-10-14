@@ -30,26 +30,8 @@ require("lazy").setup({
       }
     end,
   },
-  {
-    "stevearc/oil.nvim",
-    config = function()
-      require("oil").setup({
-        default_file_explorer = true, -- Reemplaza netrw automáticamente
-        columns = { "icon", "mtime", "size" }, -- Columnas a mostrar
-        win_options = {
-          wrap = false,
-          signcolumn = "no",
-          cursorcolumn = false,
-          foldcolumn = "0",
-          spell = false,
-          list = false,
-          conceallevel = 3,
-          concealcursor = "nvic",
-          winbar = "%{v:lua.require('oil').get_current_dir()}", -- Muestra el path actual
-        },
-      })
-    end,
-  },
+  { "nvim-tree/nvim-web-devicons", opts = {} },
+  "stevearc/oil.nvim",
   "catppuccin/nvim",
   "ahmedkhalf/project.nvim",
 })
@@ -68,3 +50,31 @@ require("lualine").setup({
 
 -- Gitsigns
 require("gitsigns").setup()
+
+
+-- Harpoon
+require("oil").setup({
+  default_file_explorer = true,
+  columns = { "icon", "size", "mtime" },
+  view_options = {
+    show_hidden = true,
+  },
+  win_options = {
+    wrap = false,
+    signcolumn = "no",
+    cursorcolumn = false,
+    foldcolumn = "0",
+    spell = false,
+    list = false,
+    conceallevel = 3,
+    concealcursor = "nvic",
+    winbar = "%{v:lua.require('oil').get_current_dir()}",
+  },
+  keymaps = {
+    ["<CR>"] = "actions.select",      -- Abrir archivo o directorio
+    ["-"] = "actions.parent",         -- Subir nivel del árbol
+    ["q"] = "actions.close",          -- Cerrar buffer
+    ["r"] = "actions.refresh",        -- Refrescar vista
+    ["~"] = "actions.cd",             -- Ir al home
+  }
+})
