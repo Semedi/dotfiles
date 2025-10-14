@@ -4,10 +4,20 @@ local map = vim.keymap.set
 map("n", "<C-s>", ":w<CR>", opts)
 map("i", "jk", "<ESC>", opts)
 
+map("n", "<C-Down>",    ":resize +2<CR>", opts)
+map("n", "<C-Up>",  ":resize -2<CR>", opts)
+map("n", "<C-Left>",  ":vertical resize -2<CR>", opts)
+map("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+
+
+
+-- Plugins
+
 map('n', '<leader><leader>', '<cmd>Telescope find_files<cr>', opts)
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', opts)
 map('n', '<leader>fb', ':Telescope buffers<CR>', opts)
 map('n', '<leader>gs', ':Telescope git_status<CR>', opts)
+map("n", "<leader>fp", ":Telescope projects<CR>")
 
 map("n", "<leader>gs", ":Git<CR>", opts)
 

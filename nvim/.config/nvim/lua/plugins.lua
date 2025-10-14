@@ -37,7 +37,17 @@ require("lazy").setup({
   { "nvim-tree/nvim-web-devicons", opts = {} },
   "stevearc/oil.nvim",
   "catppuccin/nvim",
-  "ahmedkhalf/project.nvim",
+  {
+   "ahmedkhalf/project.nvim",
+   config = function()
+     require("project_nvim").setup({
+       detection_methods = { "lsp", "pattern" },
+       patterns = { ".git", "Makefile", "package.json", "Cargo.toml", "go.mod" },
+       silent_chdir = true,
+       scope_chdir = "global",
+     })
+   end,
+  }
 })
 
 -- Treesitter
@@ -81,3 +91,5 @@ require("oil").setup({
     ["~"] = "actions.cd",             -- Ir al home
   }
 })
+
+require("telescope").load_extension("projects")
