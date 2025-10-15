@@ -1,6 +1,8 @@
 local opts = { noremap = true, silent = true }
 local map = vim.keymap.set
 
+
+-- Basics
 map("n", "<C-s>", ":w<CR>", opts)
 map("i", "jk", "<ESC>", opts)
 
@@ -8,6 +10,30 @@ map("n", "<C-Down>",    ":resize +2<CR>", opts)
 map("n", "<C-Up>",  ":resize -2<CR>", opts)
 map("n", "<C-Left>",  ":vertical resize -2<CR>", opts)
 map("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+
+-- Navigate buffers
+map("n", "<S-l>", ":bnext<CR>", opts)
+map("n", "<S-h>", ":bprevious<CR>", opts)
+map("n", "<leader>bd", ":bdelete<CR>", opts)
+
+-- Move text up and down
+map("v", "<A-j>", ":m .+1<CR>==", opts)
+map("v", "<A-k>", ":m .-2<CR>==", opts)
+map("x", "J", ":move '>+1<CR>gv-gv", opts)
+map("x", "K", ":move '<-2<CR>gv-gv", opts)
+map("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
+map("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
+
+-- toogle line number
+map("n", "<leader>n", ":set number! relativenumber!<CR>", opts)
+
+-- Terminal mode escape
+map("t", "<Esc>", "<C-\\><C-n>", opts)
+map("t", "<C-h>", "<C-\\><C-n><C-w>h", opts)
+map("t", "<C-j>", "<C-\\><C-n><C-w>j", opts)
+map("t", "<C-k>", "<C-\\><C-n><C-w>k", opts)
+map("t", "<C-l>", "<C-\\><C-n><C-w>l", opts)
+
 
 
 
