@@ -53,6 +53,15 @@ if [ -s "/usr/share/nvm/nvm.sh" ]; then
   source "/usr/share/nvm/init-nvm.sh"
 fi
 
+
+c() {
+	if [[ $1 == *.md ]]; then
+		PAGER='bat' glow -p "$1"
+	else
+		bat "$1"
+	fi
+}
+
 # Custom environment variables
 
 # ------------------------------------------
