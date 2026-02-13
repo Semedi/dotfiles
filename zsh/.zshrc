@@ -102,5 +102,12 @@ run-win() {
     cmd.exe /C "start $WIN_PATH"
 }
 
-# Optional: add user bin directory to PATH
-export PATH="$HOME/bin:/usr/local/bin:/snap/bin:$PATH"
+# PATH
+# user bin
+export PATH="$HOME/bin:/usr/local/bin:$PATH"
+
+# global npm packages
+export PATH="$HOME/.npm-global/bin:$PATH"
+
+# snap packages
+export PATH="/snap/bin:$PATH"
