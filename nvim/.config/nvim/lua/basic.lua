@@ -14,3 +14,18 @@ vim.o.smartindent = true
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+if vim.fn.has('wsl') == 1 then
+    vim.g.clipboard = {
+        name = 'xclip-wsl',
+        copy = {
+            ['+'] = 'xclip -selection clipboard',
+            ['*'] = 'xclip -selection primary',
+        },
+        paste = {
+            ['+'] = 'xclip -selection clipboard -o',
+            ['*'] = 'xclip -selection primary -o',
+        },
+        cache_enabled = 0,
+    }
+end
