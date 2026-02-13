@@ -1,5 +1,4 @@
 -- Plugin management bootstrap and setup using folke/lazy.nvim
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -12,24 +11,24 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  -- Treesitter for enhanced syntax highlighting and indenting
   {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
+    'nvim-treesitter/nvim-treesitter',
+    lazy = false,
+    build = ':TSUpdate'
   },
-
   -- Built-in LSP configuration
   "neovim/nvim-lspconfig",
+
   -- Completion engine
   {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",     -- LSP source
-      "hrsh7th/cmp-buffer",       -- Buffer words source
-      "hrsh7th/cmp-path",         -- File path source
-      "L3MON4D3/LuaSnip",         -- Snippet engine
-      "saadparwaiz1/cmp_luasnip", -- Snippet source
+      "hrsh7th/cmp-nvim-lsp",      -- LSP source
+      "hrsh7th/cmp-buffer",        -- Buffer words source
+      "hrsh7th/cmp-path",          -- File path source
+      "L3MON4D3/LuaSnip",          -- Snippet engine
+      "saadparwaiz1/cmp_luasnip",  -- Snippet source
     },
     config = function()
       local cmp = require("cmp")
@@ -92,21 +91,24 @@ require("lazy").setup({
     end,
   },
 
-  -- Telescope for fuzzy finding with dependency plenary
+  -- Telescope
   {
     "nvim-telescope/telescope.nvim",
-    dependencies = {"nvim-lua/plenary.nvim"},
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      require("telescope").setup({
+      local telescope = require("telescope")
+      telescope.setup({
         defaults = {
-          file_ignore_patterns = {".git/", ".cache", "%.o", "%.a", "%.out", "%.class", "%.pdf", "%.mkv", "%.mp4", "%.zip"},
+          file_ignore_patterns = { ".git/", ".cache", "%.o", "%.a", "%.out", "%.class", "%.pdf", "%.mkv", "%.mp4", "%.zip" },
         },
         pickers = {
           find_files = {
-            hidden = true
-          }
-        }
+            hidden = true,
+          },
+        },
       })
+
+      pcall(telescope.load_extension, "projects")
     end,
   },
 
@@ -116,13 +118,13 @@ require("lazy").setup({
     opts = {},
   },
 
-  -- Fugitive for Git integration with lazy load on commands
+  -- Fugitive
   {
     "tpope/vim-fugitive",
     cmd = { "Git", "G" },
   },
 
-  -- Status line with Catppuccin theme and fugitive integration
+  -- Lualine
   {
     "nvim-lualine/lualine.nvim",
     config = function()
@@ -130,14 +132,14 @@ require("lazy").setup({
         options = {
           theme = "catppuccin",
           section_separators = "",
-          component_separators = ""
+          component_separators = "",
         },
-        extensions = {"fugitive"},
+        extensions = { "fugitive" },
       })
     end,
   },
 
-  -- Git signs in sign column
+  -- Gitsigns
   {
     "lewis6991/gitsigns.nvim",
     config = function()
@@ -145,24 +147,24 @@ require("lazy").setup({
     end,
   },
 
-  -- Harpoon for quick file navigation with tabline and menu
+  -- Harpoon
   {
     "theprimeagen/harpoon",
     config = function()
-      require("harpoon").setup{
+      require("harpoon").setup({
         tabline = true,
         menu = { width = 80 },
-      }
+      })
     end,
   },
 
-  -- Web devicons for filetype icons
+  -- Web devicons
   {
     "nvim-tree/nvim-web-devicons",
     opts = {},
   },
 
-  -- Oil.nvim as lightweight file explorer
+  -- Oil.nvim
   {
     "stevearc/oil.nvim",
     config = function()
@@ -192,10 +194,10 @@ require("lazy").setup({
     end,
   },
 
-  -- Catppuccin theme
+  -- Theme
   "catppuccin/nvim",
 
-  -- Project.nvim for auto project detection and management
+  -- Project.nvim
   {
     "ahmedkhalf/project.nvim",
     config = function()
@@ -207,21 +209,17 @@ require("lazy").setup({
       })
     end,
   },
+
+  -- Opencode (AI)
   {
     "NickvanDyke/opencode.nvim",
     dependencies = {
-      -- Recommended for `ask()` and `select()`.
-      -- Required for `toggle()`.
       { "folke/snacks.nvim", opts = { input = {}, picker = {} } },
     },
     config = function()
-      vim.g.opencode_opts = {
-        -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition" on `opencode_opts`.
-      }
-      -- Required for `vim.g.opencode_opts.auto_reload`.
+      vim.g.opencode_opts = {}
       vim.o.autoread = true
 
-      -- Recommended/example keymaps.
       vim.keymap.set({ "n", "x" }, "<leader>oa", function() require("opencode").ask("@this: ", { submit = true }) end, { desc = "Ask about this" })
       vim.keymap.set({ "n", "x" }, "<leader>os", function() require("opencode").select() end, { desc = "Select prompt" })
       vim.keymap.set({ "n", "x" }, "<leader>o+", function() require("opencode").prompt("@this") end, { desc = "Add this" })
@@ -230,18 +228,8 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>on", function() require("opencode").command("session_new") end, { desc = "New session" })
       vim.keymap.set("n", "<leader>oi", function() require("opencode").command("session_interrupt") end, { desc = "Interrupt session" })
       vim.keymap.set("n", "<leader>oA", function() require("opencode").command("agent_cycle") end, { desc = "Cycle selected agent" })
-      vim.keymap.set("n", "<S-C-u>",    function() require("opencode").command("messages_half_page_up") end, { desc = "Messages half page up" })
-      vim.keymap.set("n", "<S-C-d>",    function() require("opencode").command("messages_half_page_down") end, { desc = "Messages half page down" })
+      vim.keymap.set("n", "<S-C-u>", function() require("opencode").command("messages_half_page_up") end, { desc = "Messages half page up" })
+      vim.keymap.set("n", "<S-C-d>", function() require("opencode").command("messages_half_page_down") end, { desc = "Messages half page down" })
     end,
-  }
+  },
 })
-
--- Treesitter setup
-require("nvim-treesitter.configs").setup({
-  ensure_installed = {"c", "cpp", "lua", "python", "rust", "typescript", "bash"},
-  highlight = { enable = true },
-  indent = { enable = true },
-})
-
--- Load Telescope projects extension
-require("telescope").load_extension("projects")
