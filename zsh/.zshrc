@@ -74,6 +74,33 @@ alias vi="nvim"
 
 # Example: reload zsh configuration
 alias reload="source ~/.zshrc"
+run-win() {
+    echo "🔨 Compilando para Windows..."
+    cargo xwin build --target x86_64-pc-windows-msvc
+
+    # --- AUTO-DETECCION START ---
+    # Preguntamos a cargo metadata por el nombre del paquete y lo limpiamos
+    APP_NAME=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].targets[] | select(.kind[]=="bin") | .name' | head -n 1)
+
+    # Si por alguna razón falla, fallback a 'app' o error
+    if [ -z "$APP_NAME" ]; then echo "❌ No pude detectar el nombre del binario"; return 1; fi
+    EXE_PATH="target/x86_64-pc-windows-msvc/debug/${APP_NAME}.exe"
+    if [ ! -f "$EXE_PATH" ]; then
+        echo "❌ Error: No encuentro el ejecutable en: $EXE_PATH"
+        echo "   (Verifica que la compilación terminó bien)"
+        return 1
+    fi
+
+    # Ajusta tu usuario de Windows aquí o usa una variable de entorno
+    WIN_USER="sergi"
+    WIN_PATH="/mnt/c/Users/${WIN_USER}/Desktop/${APP_NAME}.exe"
+
+    echo "🚀 Copiando ${APP_NAME}.exe a Windows..."
+    cp "$EXE_PATH" "$WIN_PATH"
+
+    echo "🎮 Ejecutando..."
+    cmd.exe /C "start $WIN_PATH"
+}
 
 # Optional: add user bin directory to PATH
-export PATH="$HOME/bin:/usr/local/bin:$PATH"
+export PATH="$HOME/bin:/usr/local/bin:/snap/bin:$PATH"
