@@ -7,8 +7,9 @@ end
 
 
 -- Add your LSP servers here
-local servers = { "pyright", "tsserver", "terraformls", "rust_analyzer" }
+local servers = { "pyright", "tsserver", "terraformls", "rust_analyzer", "gopls" }
 
+vim.lsp.enable('gopls')
 vim.lsp.enable('pyright')
 vim.lsp.enable('ts_ls')
 vim.lsp.enable('terraformls')
