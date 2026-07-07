@@ -44,6 +44,7 @@ COMPLETION_WAITING_DOTS="true"
 
 # Set default editor to Neovim
 export EDITOR="nvim"
+export BROWSER="firefox"
 
 # Node Version Manager (nvm) setup if installed system-wide
 [ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
@@ -60,6 +61,13 @@ c() {
 	else
 		bat "$1"
 	fi
+}
+
+nes_sync-doc() {
+    DOC_SRC=$HOME/Workspace/Dormakaba/PRV/porthos-common-docs/public/src/rest/nes
+    DEPLOY_SRC=$HOME/Workspace/Dormakaba/NES/porthos-notifications-events-service/infrastructure/terraform/api
+
+    cp $DEPLOY_SRC/swagger.yml $DOC_SRC/swagger.yml
 }
 
 # Custom environment variables
@@ -114,9 +122,11 @@ run-win() {
 # PATH
 # user bin
 export PATH="$HOME/bin:/usr/local/bin:$PATH"
-
-# global npm packages
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.npm-global/bin:$PATH"
-
-# snap packages
 export PATH="/snap/bin:$PATH"
+
+# Claude Code profiles
+alias claude-personal="env -i HOME=\$HOME PATH=\$PATH claude"
+alias claude-work="AWS_PROFILE=CLAUDE_PROFILE AWS_REGION=eu-central-1 CLAUDE_CODE_USE_BEDROCK=1 ANTHROPIC_MODEL=eu.anthropic.claude-sonnet-4-6 claude"
